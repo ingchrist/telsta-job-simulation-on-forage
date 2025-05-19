@@ -23,18 +23,9 @@ clear_screen_and_show() {
   clear
   echo "Current directory: $(pwd)"
   list_items
+  # List commands horizontally
   echo -e "\nCommands:"
-  echo "  cd <number>            - Change directory"
-  echo "  rm <number>            - Remove file/folder"
-  echo "  mv <n1> <n2>           - Rename n1 to n2"
-  echo "  cp <n1> <n2>           - Copy n1 to n2"
-  echo "  mkdir <name>           - Create new directory"
-  echo "  touch <name>           - Create new file"
-  echo "  cat <number>           - Show file contents"
-  echo "  less <number>          - View file with less"
-  echo "  pwd                    - Print working directory"
-  echo "  ls                     - List files/folders"
-  echo "  q                      - Quit"
+  echo -e "  cd <number>   rm <number>   mv <n1> <n2>   cp <n1> <n2>   mkdir <name>   touch <name>   cat <number>   less <number>   pwd   ls   q"
 }
 
 while true; do
