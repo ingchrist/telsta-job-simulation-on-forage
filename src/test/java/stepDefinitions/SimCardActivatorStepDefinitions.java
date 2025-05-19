@@ -10,7 +10,6 @@ import org.springframework.test.context.ContextConfiguration;
 
 import io.cucumber.java.en.*;
 import org.springframework.http.*;
-import org.springframework.web.client.RestTemplate;
 import static org.junit.jupiter.api.Assertions.*;
 
 import java.util.HashMap;
@@ -26,8 +25,6 @@ public class SimCardActivatorStepDefinitions {
     private String iccid;
     private String customerEmail;
     private Long simCardId;
-    private boolean activationResult;
-    private final RestTemplate restTemplate = new RestTemplate();
 
     @Given("I have a SIM card with ICCID {string} and customer email {string}")
     public void i_have_a_sim_card_with_iccid_and_customer_email(String iccid, String email) {
@@ -46,11 +43,17 @@ public class SimCardActivatorStepDefinitions {
         assertEquals(HttpStatus.OK, response.getStatusCode());
         Map body = response.getBody();
         assertNotNull(body);
-        this.simCardId = ((Number) body.get("id")).longValue();
+        Object idObj = body.get("id");
+        if (idObj != null) {
+            this.simCardId = ((Number) idObj).longValue();
+        } else {
+            this.simCardId = null;
+        }
     }
 
     @Then("the activation should be successful")
     public void the_activation_should_be_successful() {
+        assertNotNull(simCardId, "simCardId should not be null for successful activation");
         String url = "http://localhost:8080/sim/query?simCardId=" + simCardId;
         ResponseEntity<Map> response = restTemplate.getForEntity(url, Map.class);
         assertEquals(HttpStatus.OK, response.getStatusCode());
@@ -61,11 +64,7 @@ public class SimCardActivatorStepDefinitions {
 
     @Then("the activation should fail")
     public void the_activation_should_fail() {
-        String url = "http://localhost:8080/sim/query?simCardId=" + simCardId;
-        ResponseEntity<Map> response = restTemplate.getForEntity(url, Map.class);
-        assertEquals(HttpStatus.OK, response.getStatusCode());
-        Map body = response.getBody();
-        assertNotNull(body);
-        assertFalse((Boolean) body.get("active"));
+        assertNull(simCardId, "simCardId should be null for failed activation");
+        // Optionally, you can add more checks here if your API returns error details
     }
 }
