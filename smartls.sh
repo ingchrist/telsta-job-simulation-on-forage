@@ -1,20 +1,22 @@
 #!/bin/bash
 
-# Function to list files/folders with numbers
+# Function to list files/folders with numbers horizontally
 list_items() {
   i=1
   declare -gA num_map
+  line=""
   for entry in *; do
-    echo "$i) $entry"
+    line+="$i) $entry    "
     num_map[$i]="$entry"
     ((i++))
   done
+  echo "$line"
 }
 
 while true; do
   echo "Current directory: $(pwd)"
   list_items
-  echo "Commands:"
+  echo -e "\nCommands:"
   echo "  cd <number>      - Change directory"
   echo "  rm <number>      - Remove file/folder"
   echo "  mv <n1> <n2>     - Rename n1 to n2"
