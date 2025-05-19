@@ -1,29 +1,16 @@
-# Telstra Starter Repo :bird:
+Here is the background information on your task
 
-This repo has everything you need to get started on the Telstra program!
+With the body of your application complete, it's time to find out if it actually works. To test your microservice, we're going to be using the Cucumber framework. Cucumber is, at its heart, a technology designed to enable behaviour-driven development (BDD). BDD is a development paradigm that aims to bridge the often significant gap between the people who make the requirements and the people who implement them. The idea is to break development into a three-part cycle. First is a brainstorming session dedicated to coming up with hard and fast examples of how a new feature is going to be used. Then, those examples are translated into a special type of documentation called Gherkin syntax. Gherkin syntax is unique in that it is structured enough to be machine readable, while using plain text that humans can understand. This overlapping documentation, which both computers and executives can comprehend, is the key breakthrough boasted by Cucumber. After this, the Gherkin documentation is translated into a series of executable steps that can be run to test the application. Finally, the actual code required to pass the test is written, and the process starts all over again for the next feature. In this way, BDD shares similarities with TDD (test-driven development), since tests are outlined before the code that allows them to pass is actually developed.
 
+By electing to use BDD with Cucumber, each feature added to a codebase ends up being well-documented in a format legible to all parties involved. Anyone approaching the codebase for the first time can immediately get a feel for what the application is capable of without reading a line of code. Furthermore, since each piece of documentation corresponds to a series of what are, in effect, integration test cases, the developers working on the project can tell when a new change breaks an old feature. In the end, developers working under the BDD paradigm have greater confidence and insight into the codebases they interact with on a daily basis.
 
-  First, read through this guide on integrating the JPA into a Spring microservice.
-    For every request that makes its way to your microservice, you'll need to add a record to the database. This record should contain the ICCID of the SIM card, the associated customer's email address, and a Boolean value indicating whether the SIM card was activated successfully. The final flow of your programme should look like this:
-        Your REST controller receives a new post request with a customer's email and an ICCID.
-        Your REST consumer sends a post request to the SimCardActuator at http://localhost:8444/actuate with the ICCID of the SIM card received in the previous step.
-        Your database connection saves a new record of the aforementioned transaction by creating a new row in the database with the following columns: 
-            id: long
-            (In keeping with best practices for relational databases, the ID column should include the @Id and @GeneratedValue annotations. These will allow the database to manage the column automatically, incrementing the value of the ID every time a new row is introduced. Since the database is going to manage this column, you may exclude it from your entity's constructors – do not set it manually.)
-            iccid: string
-            customerEmail: string
-            active: boolean
-    Since we're only interested in basic CRUD operations, you should use the JPA instead of raw SQL to simplify your programme. All the dependencies you need have already been added to the pom.xml file, so you can get started writing actual code right away!
-    As a final step, add a query endpoint to your REST controller so you can test your programme in the next task. This endpoint will handle Get requests and accept a single request parameter called simCardId (of type: long). Upon receiving a request, this endpoint will query the database for the matching ID and return the values it finds as a JSON object in the response. The response object should have the following structure:
+3
+Here is your task
 
-{
+    In order to adhere to BDD in the strictest sense, we would have had to draft our documentation (and therefore test cases) prior to actually writing our code. We've forgone this requirement for the sake of simplicity, but will still be drafting up Gherkin scenarios as if we had not. As a first step, familiarise yourself with the Cucumber framework by reading about BDD and the framework itself.
+     
+    Now it's time to draft some documentation. For this project, you will need to put together a single feature with two scenarios. The first scenario will be a successful SIM card activation, and the second scenario will be a failed one. The SIM card Actuator (that JAR file provided to you in the services folder to which your application submits Post requests) is designed such that the ICCID "1255789453849037777" will successfully activate, while the ICCID "8944500102198304826" will not (remember to run this JAR file while testing your code, otherwise your tests will fail ambiguously). You will need to create a scenario that submits an activation request to your microservice with the former ICCID, then uses the query endpoint (the one you added at the end of task two) to confirm that the activation was a success. Then you'll need to create a second scenario that does the same thing, but with the latter ICCID, and ensures that the activation fails.
 
-“iccid”: string,
+    Hint: since the database IDs for each activation record are auto-incremented, the first record submitted to the database will have an ID of 1, while the second will have an ID of 2, and so on and so forth. Use this to your advantage when querying the database.
 
-“customerEmail”: string,
-
-“active”: boolean
-
-}
-
-hello
+Since the boilerplate required to get Cucumber integrated with Spring is a bit counterintuitive, I've gone ahead and provided it with the project skeleton. Add the step definitions for your feature to the SimCardActivatorStepDefinitions class in the ‘src/test/java/stepDefinitions' folder. Keep in mind that you can use the provided restTemplate to submit requests to your microservice (which will be running at localhost:8080).
