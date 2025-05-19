@@ -1,6 +1,6 @@
 package au.com.telstra.simcardactivator;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 @Entity
 public class SimCardActivation {
