@@ -1,16 +1,22 @@
 #!/bin/bash
 
-# Function to list files/folders with numbers horizontally
+# Function to list files/folders with numbers horizontally and colored
 list_items() {
   i=1
   declare -gA num_map
   line=""
   for entry in *; do
-    line+="$i) $entry    "
+    if [[ -d "$entry" ]]; then
+      # Blue for directories
+      line+=$'\e[34m'"$i) $entry"$'\e[0m    '
+    else
+      # White for files
+      line+=$'\e[37m'"$i) $entry"$'\e[0m    '
+    fi
     num_map[$i]="$entry"
     ((i++))
   done
-  echo "$line"
+  echo -e "$line"
 }
 
 while true; do
