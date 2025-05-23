@@ -20,7 +20,7 @@ jobs:
         uses: actions/setup-java@v4
         with:
           java-version: 17
-          distribution: 'zulu' # Alternative distribution options are available.
+          distribution: 'zulu'  # Alternative distribution options are available.
       - name: Cache SonarQube packages
         uses: actions/cache@v4
         with:
@@ -40,4 +40,8 @@ jobs:
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
-        run: ./mvnw -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=Telstra-job-simulation-on-forage -Dsonar.projectName=Telstra-job-simulation-on-forage -Dsonar.host.url=${SONAR_HOST_URL}
+        run: |
+          ./mvnw -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
+          -Dsonar.projectKey=Telstra-job-simulation-on-forage \
+          -Dsonar.projectName=Telstra-job-simulation-on-forage \
+          -Dsonar.host.url="${SONAR_HOST_URL}"
