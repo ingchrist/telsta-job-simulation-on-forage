@@ -37,11 +37,7 @@ jobs:
       # - name: Install Maven
       #   run: sudo apt-get update && sudo apt-get install -y maven
       - name: Build and analyze
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         run: |
           ./mvnw -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar \
           -Dsonar.projectKey=Telstra-job-simulation-on-forage \
-          -Dsonar.projectName=Telstra-job-simulation-on-forage \
-          -Dsonar.host.url="${SONAR_HOST_URL}"
+          -Dsonar.projectName=Telstra-job-simulation-on-forage
