@@ -42,8 +42,8 @@ public class SimCardActivationController {
 
         Map<String, Object> response = new HashMap<>();
         response.put("id", saved.getId());
-        response.put("iccid", saved.getIccid());
-        response.put("customerEmail", saved.getCustomerEmail());
+        response.put(ICCID, saved.getIccid());
+        response.put(CUSTOMER_EMAIL, saved.getCustomerEmail());
         response.put("active", saved.isActive());
 
         return ResponseEntity.ok(response);
