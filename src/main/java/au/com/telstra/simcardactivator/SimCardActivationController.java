@@ -11,18 +11,21 @@ import java.util.*;
 @RequestMapping("/sim")
 public class SimCardActivationController {
 
+    private static final String ICCID = "iccid";
+    private static final String CUSTOMER_EMAIL = "customerEmail";
+
     @Autowired
     private SimCardActivationService service;
 
     @PostMapping("/activate")
     public ResponseEntity<?> activateSim(@RequestBody Map<String, String> request) {
-        String iccid = request.get("iccid");
-        String customerEmail = request.get("customerEmail");
+        String iccid = request.get(ICCID);
+        String customerEmail = request.get(CUSTOMER_EMAIL);
 
         // Call SimCardActuator
         RestTemplate restTemplate = new RestTemplate();
         Map<String, String> actuatorRequest = new HashMap<>();
-        actuatorRequest.put("iccid", iccid);
+        actuatorRequest.put(ICCID, iccid);
 
         boolean activated = false;
         try {
@@ -52,8 +55,8 @@ public class SimCardActivationController {
         if (result.isPresent()) {
             SimCardActivation activation = result.get();
             Map<String, Object> response = new HashMap<>();
-            response.put("iccid", activation.getIccid());
-            response.put("customerEmail", activation.getCustomerEmail());
+            response.put(ICCID, activation.getIccid());
+            response.put(CUSTOMER_EMAIL, activation.getCustomerEmail());
             response.put("active", activation.isActive());
             return ResponseEntity.ok(response);
         } else {
