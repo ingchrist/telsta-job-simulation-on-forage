@@ -40,10 +40,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
         run: >-
           mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
-          -Dsonar.host.url=${{ secrets.SONAR_HOST_URL }}
+          -Dsonar.host.url=http://sonarqube:9000
           -Dsonar.token=${{ secrets.SONAR_TOKEN }}
           -Dsonar.projectKey=Telstra-job-simulation-on-forage
           -Dsonar.projectName='Telstra-job-simulation-on-forage'
