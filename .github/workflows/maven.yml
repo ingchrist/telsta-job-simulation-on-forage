@@ -38,11 +38,11 @@ jobs:
           sudo apt-get install -y maven
       - name: Validate SonarQube Configuration
         run: |
-          if [[ ! ${{ secrets.SONAR_HOST_URL }} =~ ^https?:// ]]; then
+          if [[ ! "${{ secrets.SONAR_HOST_URL }}" =~ ^https?:// ]]; then
             echo "Error: SONAR_HOST_URL must start with http:// or https://"
             exit 1
           fi
-          if [[ -z "${{ secrets.SONAR_TOKEN }}" ]]; then
+          if [ -z "${{ secrets.SONAR_TOKEN }}" ]; then
             echo "Error: SONAR_TOKEN is not set"
             exit 1
           fi
