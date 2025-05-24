@@ -41,7 +41,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: >-
           mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar
-          -Dsonar.host.url=https://bug-free-memory-rjgw4q6p9v7cx4w9-9000.app.github.dev
+          -Dsonar.host.url=http://localhost:9000
           -Dsonar.login=sqp_1510220dab8f791ace42a4d96d3e0478ed6d244f
           -Dsonar.projectKey=Telstra-job-simulation-on-forage
           -Dsonar.projectName='Telstra-job-simulation-on-forage'
