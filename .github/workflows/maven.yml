@@ -36,6 +36,17 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y maven
+      - name: Validate SonarQube Configuration
+        run: |
+          if [[ ! ${{ secrets.SONAR_HOST_URL }} =~ ^https?:// ]]; then
+            echo "Error: SONAR_HOST_URL must start with http:// or https://"
+            exit 1
+          fi
+          if [[ -z "${{ secrets.SONAR_TOKEN }}" ]]; then
+            echo "Error: SONAR_TOKEN is not set"
+            exit 1
+          fi
+      
       - name: Build and analyze
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -48,3 +59,4 @@ jobs:
           -Dsonar.projectKey=Telstra-job-simulation-on-forage
           -Dsonar.projectName='Telstra-job-simulation-on-forage'
           -Dsonar.java.source=17
+          -Dsonar.qualitygate.wait=true
